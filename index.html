@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>IS590ADV Final Project</title>
+  <meta charset="utf-8"/>
+  <!-- vegalite -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.0.0/build/vega.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@3.0.0-rc14/build/vega-lite.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@3.29.1/build/vega-embed.js"></script>
+  <style media="screen">
+  /* Add space between Vega-Embed links  */
+  .vega-actions a {
+    margin-right: 5px;
+  }
+  #vis {
+    margin-top: 30;
+  }
+  .block {
+    height: 95vh;
+    line-height: 95vh;
+    background-color: #FFFFF0;
+    text-align: center;
+  }
+  span {  
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+  }
+  div h1 {
+    color: #218DA6;
+    font-size: 36pt;
+  }
+  div h2,h3 {
+    color: #218DA6;
+    font-size: 24pt;
+  }
+  div p {
+    color: #234D51;
+    font-size: 20pt;
+  }
+  div a {
+    color: #FF513F;
+  }
+</style>
+
+</head>
+<body>
+  <div class="block">
+    <span>
+      <h1>Final Project: New York 2015 Street Tree Census</h1>
+      <h2>Claire Tsao</h2>
+    </span>
+  </div>
+  <div class="block">
+    <span>
+      <h3>A Quick Overview</h3>
+      <p>65423 trees in Manhattan were recorded in the census.</p>
+      <p>129 different Species of trees were found.</p>
+    </span>
+  </div>
+      <h3>Let's check their status by their diameter data:</h3>
+      <!-- Container for the vegalite -->
+      <div id="vis"></div>
+      <script>
+      // Assign the specification to a local variable vlSpec.
+      var vlSpec = {
+        "$schema": "https://vega.github.io/schema/vega-lite/v3.json",
+        "description": "2015 Street Tree Census - Tree Data",
+        "data": {
+          "url": "t4vega.csv"
+        },
+        "vconcat": [
+        {
+          "layer": [
+          {
+            "title": "Diameter at breast height of tree by Health",
+            "mark": "rect",
+            "width": 900,
+            "encoding": {
+              "x": {"bin": {"maxbins":300}, "field": "tree_dbh", "type": "quantitative"},
+              "y": {"field": "health", "type": "nominal"},
+              "color": {"aggregate": "count","field": "tree_dbh", "type": "quantitative"}
+            }
+          }
+          ]
+        },
+        {
+          "layer": [
+          {
+            "title": "Diameter at breast height of tree by Tree Status",
+            "mark": "rect",
+            "width": 900,
+            "encoding": {
+              "x": {"bin": {"maxbins":300}, "field": "tree_dbh", "type": "quantitative"},
+              "y": {"field": "status", "type": "nominal"},
+              "color": {"aggregate": "count","field": "tree_dbh", "type": "quantitative"}
+            }
+          }
+          ]
+        },
+        {
+          "layer": [
+          {
+            "title": "Diameter at breast height of tree by Species (Common Name)",
+            "mark": "rect",
+            "width": 900,
+            "encoding": {
+              "x": {"bin": {"maxbins":150}, "field": "tree_dbh", "type": "quantitative"},
+              "y": {"field": "spc_common", "type": "nominal"},
+              "color": {"aggregate": "count","field": "tree_dbh", "type": "quantitative"}
+            }
+          }
+          ]
+        }
+        ]
+      };
+      // Embed the visualization in the container with id `vis`
+      vegaEmbed('#vis', vlSpec);
+    </script>
+    <p>   </p>
+    <h3>Map View:</h3>
+    <iframe width="100%" height="600" frameborder="0" src="https://amoss.carto.com/builder/283c88f1-9013-467c-b275-66aaa7da0794/embed" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+<div class="block">
+  <span>
+    <h3>Data Source</h3>
+    <p><a href="https://data.cityofnewyork.us/Environment/2015-Street-Tree-Census-Tree-Data">NYC Open Data</a></p>
+    <h3>Map Builder</h3>
+        <p><a href="https://carto.com/">Carto</a></p>
+  </span>
+</div>
+</body>
+</html>
